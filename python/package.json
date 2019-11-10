@@ -4,7 +4,8 @@
   "description": "Python BDD",
   "license": "MIT",
   "scripts": {
-    "deploy": "sls deploy"
+    "deploy": "sls deploy",
+    "test:behave": "pipenv run behave --no-capture"
   },
   "devDependencies": {
     "serverless": "^1.57.0"
