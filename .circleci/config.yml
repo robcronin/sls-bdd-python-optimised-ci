@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7.4-node
+    working_directory: ~/python
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            yarn
+            pipenv install --dev
+      - run:
+          name: Install awscli
+          command: pip install awscli
+      # - run:
+      #     name: run tests
+      #     command: yarn test:behave
+
