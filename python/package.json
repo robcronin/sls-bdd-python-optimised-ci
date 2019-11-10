@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Python BDD",
   "license": "MIT",
+  "scripts": {
+    "deploy": "sls deploy"
+  },
   "devDependencies": {
     "serverless": "^1.57.0"
   }
