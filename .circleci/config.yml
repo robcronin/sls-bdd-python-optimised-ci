@@ -12,9 +12,6 @@ jobs:
             yarn
             pipenv install --dev
       - run:
-          name: Install awscli
-          command: pipenv run pip install awscli
-      - run:
           name: Run Behave tests
           command: |
             chmod +x ci-behave.sh
