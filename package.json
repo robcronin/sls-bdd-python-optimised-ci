@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "sls deploy",
+    "teardown": "sls remove",
     "test:behave": "pipenv run behave --no-capture"
   },
   "devDependencies": {
