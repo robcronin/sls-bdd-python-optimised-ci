@@ -7,6 +7,7 @@ Serverless BDD setups
 ### Installation
 
 - `yarn`
+- `pipenv install --dev`
 
 ### Deploy
 
