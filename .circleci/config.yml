@@ -13,7 +13,7 @@ jobs:
             pipenv install --dev
       - run:
           name: Install awscli
-          command: pip install awscli
+          command: pipenv run pip install awscli
       # - run:
       #     name: run tests
       #     command: yarn test:behave
