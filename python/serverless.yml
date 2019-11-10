@@ -12,3 +12,10 @@ functions:
       - http:
           method: GET
           path: hello
+
+  sum:
+    handler: src/sum.sum
+    events:
+      - http:
+          method: POST
+          path: sum

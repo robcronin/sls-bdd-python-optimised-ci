@@ -8,6 +8,11 @@ def call_endpoint(context, endpoint):
     context.last_response = response
 
 @then('I see "{message}" in the "{key}" of the response')
-def step_impl(context, message, key):
+def see_string_in_response(context, message, key):
+    body = json.loads(context.last_response.text)
+    assert body[key] == message
+
+@then('I see {message:d} in the "{key}" of the response')
+def see_integer_in_response(context, message, key):
     body = json.loads(context.last_response.text)
     assert body[key] == message
