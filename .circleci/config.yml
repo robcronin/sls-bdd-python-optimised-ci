@@ -16,8 +16,13 @@ jobs:
           command: pipenv run pip install awscli
       - run:
           name: Deploy test environment
-          command: yarn deploy --stackName ${CIRCLE_BUILD_NUM}
-      # - run:
-      #     name: run tests
-      #     command: yarn test:behave
+          command: |
+              yarn deploy --stackName 'circle-'"${CIRCLE_BUILD_NUM}"
+      - run:
+          name: Run Behave tests
+          command: |
+              export ENDPOINT=$(yarn sls info --verbose --stackName 'circle-'"${CIRCLE_BUILD_NUM}" | grep ServiceEndpoint | cut -d ' ' -f 2)
+              cp features/environment-dist.py features/environment.py
+              sed 's?{YOUR_DOMAIN_NAME_NO_TRAILING_SLASH}?\"'"$ENDPOINT"'\"?' features/environment-dist.py > features/environment.py
+              yarn test:behave
 
