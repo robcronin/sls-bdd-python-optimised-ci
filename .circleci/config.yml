@@ -14,6 +14,9 @@ jobs:
       - run:
           name: Install awscli
           command: pipenv run pip install awscli
+      - run:
+          name: Deploy test environment
+          command: yarn deploy --stackName ${CIRCLE_BUILD_NUM}
       # - run:
       #     name: run tests
       #     command: yarn test:behave
