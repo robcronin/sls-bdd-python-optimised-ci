@@ -1,0 +1,9 @@
+{
+  "name": "python",
+  "version": "1.0.0",
+  "description": "Python BDD",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless": "^1.57.0"
+  }
+}
