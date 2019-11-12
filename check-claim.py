@@ -5,7 +5,7 @@ import random
 resp = sys.stdin.read()
 body = json.loads(resp)
 
-if(body["info"] == "Successfully claimed stack"):
+if("info" in body and body["info"] == "Successfully claimed stack"):
     print("OK")
 else:
     print("KO")
