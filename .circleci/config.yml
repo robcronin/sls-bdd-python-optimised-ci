@@ -33,4 +33,9 @@ jobs:
             chmod +x ci-behave-no-lock.sh
             ./ci-behave-no-lock.sh
 
-
+workflows:
+  version: 2
+  Build:
+    jobs:
+      - build-with-lock
+      - build-with-no-lock
