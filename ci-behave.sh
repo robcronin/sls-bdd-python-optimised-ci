@@ -12,11 +12,13 @@ then
             \"repoName\": \"sls-bdd\",
             \"isAvailable\": false
         }"
-fi
-CLAIM=$(curl -X PUT ${BDD_LOCK_ENDPOINT}/claim-stack/${STACK_NAME} | python check-claim.py)
-if [ "$CLAIM" == "KO" ]
-then
-    exit 1
+else
+    CLAIM=$(curl -X PUT ${BDD_LOCK_ENDPOINT}/claim-stack/${STACK_NAME} | python check-claim.py)
+    if [ "$CLAIM" == "KO" ]
+    then
+        echo "Stack already claimed - bad luck"
+        exit 1
+    fi
 fi
 
 
