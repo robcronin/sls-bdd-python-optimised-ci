@@ -4,7 +4,14 @@ set -e
 STACK_NAME=$(curl -X GET ${BDD_LOCK_ENDPOINT}/get-available/sls-bdd | python get-stack.py)
 if [ "$STACK_NAME" == "NO STACKS" ]
 then
-    exit 1
+    RAND=$(openssl rand -base64 12)
+    STACK_NAME="circle-$RAND"
+    curl -X POST https://wxc3te4blc.execute-api.eu-west-2.amazonaws.com/dev/create-stack \
+        -d "{
+            \"stackName\": \"${STACK_NAME}\",
+            \"repoName\": \"sls-bdd\",
+            \"isAvailable\": false
+        }"
 fi
 CLAIM=$(curl -X PUT ${BDD_LOCK_ENDPOINT}/claim-stack/${STACK_NAME} | python check-claim.py)
 if [ "$CLAIM" == "KO" ]
