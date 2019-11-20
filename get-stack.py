@@ -3,7 +3,7 @@ import os
 import random
 import requests
 
-REPO_NAME = "sls-bdd"
+REPO_NAME = os.environ["REPO_NAME"]
 
 headers = {"Authorization": os.environ["BDD_LOCK_AUTH_TOKEN"]}
 
