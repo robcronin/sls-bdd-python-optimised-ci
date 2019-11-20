@@ -1,18 +1,19 @@
 #!/bin/bash
 
 set -e
-STACK_NAME=$(curl -X GET ${BDD_LOCK_ENDPOINT}/get-available/sls-bdd | python get-stack.py)
+STACK_NAME=$(curl -X GET ${BDD_LOCK_ENDPOINT}/get-available/sls-bdd -H "Authorization: ${BDD_LOCK_AUTH_TOKEN}" | python get-stack.py)
 if [ "$STACK_NAME" == "NO STACKS" ]
 then
     STACK_NAME="circle$RANDOM"
-    curl -X POST https://wxc3te4blc.execute-api.eu-west-2.amazonaws.com/dev/create-stack \
+    curl -X POST ${BDD_LOCK_ENDPOINT}/create-stack \
         -d "{
             \"stackName\": \"${STACK_NAME}\",
             \"repoName\": \"sls-bdd\",
             \"isAvailable\": false
-        }"
+        }" \
+        -H "Authorization: ${BDD_LOCK_AUTH_TOKEN}"
 else
-    CLAIM=$(curl -X PUT ${BDD_LOCK_ENDPOINT}/claim-stack/${STACK_NAME} | python check-claim.py)
+    CLAIM=$(curl -X PUT ${BDD_LOCK_ENDPOINT}/claim-stack/${STACK_NAME} -H "Authorization: ${BDD_LOCK_AUTH_TOKEN}" | python check-claim.py)
     if [ "$CLAIM" == "KO" ]
     then
         echo "Stack already claimed - bad luck"
@@ -31,6 +32,6 @@ yarn test:behave
 BEHAVE_SUCESS=$?
 set -e
 
-curl -X PUT "${BDD_LOCK_ENDPOINT}/release-stack/${STACK_NAME}"
+curl -X PUT "${BDD_LOCK_ENDPOINT}/release-stack/${STACK_NAME}" -H "Authorization: ${BDD_LOCK_AUTH_TOKEN}"
 
 exit $BEHAVE_SUCESS
