@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-with-lock:
     docker:
       - image: circleci/python:3.7.4-node
     working_directory: ~/python
@@ -16,5 +16,26 @@ jobs:
           command: |
             chmod +x ci-behave.sh
             ./ci-behave.sh
+  build-with-no-lock:
+    docker:
+      - image: circleci/python:3.7.4-node
+    working_directory: ~/python
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            yarn
+            pipenv install --dev
+      - run:
+          name: Run Behave tests
+          command: |
+            chmod +x ci-behave-no-lock.sh
+            ./ci-behave-no-lock.sh
 
-
+workflows:
+  version: 2
+  Build:
+    jobs:
+      - build-with-lock
+      - build-with-no-lock

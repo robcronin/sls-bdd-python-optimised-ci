@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "sls deploy",
+    "lint": "pipenv run black .",
     "teardown": "sls remove",
     "test:behave": "pipenv run behave --no-capture"
   },
