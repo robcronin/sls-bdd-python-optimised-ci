@@ -3,6 +3,7 @@
 A Serverless BDD Example in Python using an Optimised CI Pipeline
 
 This is an example repo using the lock table as laid out in the [bdd-lock-table repo](https://github.com/robcronin/bdd-lock-table)
+- Check that out first for more context
 
 It runs a number of [behave](https://github.com/behave/behave) BDD tests on some simple python serverless functions
 
@@ -35,3 +36,20 @@ Behave tests are intended to run against an existing stack so these steps assume
     - Update features/environment.py with your domain name e.g. `https://xxxxxxxxxx.execute-api.eu-west-2.amazonaws.com/dev`
 - Run: `yarn test:behave`
 - For debugging with print statements you need to add a newline for all prints to avoid it being overwritten by behave (i.e. `print('Message here\n')`)
+
+## Running on CI
+
+This repo is set up to run with [CircleCI](https://circleci.com/) although any CI platform should work
+
+It will run 2 builds:
+    - `build-with-no-lock`: will create a brand new stack, run the BDD tests and then teardown the stacck
+    - `build-with-lock`: (based on[bdd-lock-table repo](https://github.com/robcronin/bdd-lock-table)) will attempt to claim an existing stack or else make a new one, run the BDD tests and then release the stack back into circulation
+
+If a stack is availble this typically brings the build time from 2:40 to 1:10
+
+### Setup
+
+- Configure your CI and add the following environment variables to your CI:
+    - `BDD_LOCK_ENDPOINT`: The root of your deployed endpoints e.g. `https://xxxxxxxxxx.execute-api.eu-west-2.amazonaws.com/dev`
+    - `BDD_LOCK_AUTH_TOKEN`: The password you generated and stored in ssm
+    - `REPO_NAME`: your repo name
