@@ -21,7 +21,7 @@ Requires:
 - `yarn`
 - `pipenv install --dev`
 
-###  <a id="deploy"></a>DDeploy
+###  <a id="deploy"></a>Deploy
 
 *Note* if you are not using your default AWS profile then add `--aws-profile {YOUR_PROFILE}` to the end of these commands
 
@@ -39,17 +39,22 @@ Behave tests are intended to run against an existing stack so these steps assume
 
 ## Running on CI
 
-This repo is set up to run with [CircleCI](https://circleci.com/) although any CI platform should work
+Requires:
+
+- A BDD lock table from lock table [bdd-lock-table repo](https://github.com/robcronin/bdd-lock-table) setup
+- A [CircleCI](https://circleci.com/) account (other CI Platforms should work if you tweak the [config](./.circleci/config.yml) appropriately)
+
 
 It will run 2 builds:
-    - `build-with-no-lock`: will create a brand new stack, run the BDD tests and then teardown the stacck
-    - `build-with-lock`: (based on[bdd-lock-table repo](https://github.com/robcronin/bdd-lock-table)) will attempt to claim an existing stack or else make a new one, run the BDD tests and then release the stack back into circulation
+
+- `build-with-no-lock`: will create a brand new stack, run the BDD tests and then teardown the stack
+- `build-with-lock`: (based on [bdd-lock-table repo](https://github.com/robcronin/bdd-lock-table)) will attempt to claim an existing stack or else make a new one, run the BDD tests and then release the stack back into circulation
 
 If a stack is availble this typically brings the build time from 2:40 to 1:10
 
 ### Setup
 
 - Configure your CI and add the following environment variables to your CI:
-    - `BDD_LOCK_ENDPOINT`: The root of your deployed endpoints e.g. `https://xxxxxxxxxx.execute-api.eu-west-2.amazonaws.com/dev`
-    - `BDD_LOCK_AUTH_TOKEN`: The password you generated and stored in ssm
-    - `REPO_NAME`: your repo name
+    - `BDD_LOCK_ENDPOINT`: The root of your deployed **bdd-lock-table** endpoints e.g. `https://xxxxxxxxxx.execute-api.eu-west-2.amazonaws.com/dev`
+    - `BDD_LOCK_AUTH_TOKEN`: The password you generated and stored in ssm when setting up your **bdd-lock-table**
+    - `REPO_NAME`: your repo name e.g. `sls-bdd-python-optimised-ci`
