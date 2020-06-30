@@ -10,6 +10,6 @@
     "test:behave": "pipenv run behave --no-capture"
   },
   "devDependencies": {
-    "serverless": "^1.72.0"
+    "serverless": "^1.74.1"
   }
 }
